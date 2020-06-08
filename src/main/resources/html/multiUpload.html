@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+
+<body>
+<form id="uploadfiles" enctype="multipart/form-data">
+    <input type="file" multiple="multiple" id="file_upload" name="file_upload" />
+    <input type="button" value="上传" onclick="upload()" />
+</form>
+</body>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+<script type="text/javaScript">
+    /*
+     * 上传文件
+     */
+    function upload(){
+        var formData = new FormData($( "#uploadfiles" )[0]);
+        if($("input[type=file]")[0].files.length==0){
+            alert("请先选择文件")
+            return
+        }
+        $.ajax({
+            type: "post",
+            url: "http://localhost:8081/util/upload",
+            dataType: "json",
+            data: formData,
+            /**
+             *必须false才会自动加上正确的Content-Type
+             */
+            contentType : false,
+            /**
+             * 必须false才会避开jQuery对 formdata 的默认处理
+             * XMLHttpRequest会对 formdata 进行正确的处理
+             */
+            processData : false,
+            success: function(data){//从后端返回数据进行处理
+                if(data){
+                    alert(data.msg);
+                }else{
+                    alert("上传失败！");
+                }
+            },
+            error: function(err) {//提交出错
+                alert("服务器无响应");
+            }
+        });
+    }
+</script>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+
+<body>
+<input type="button" value="下载" onclick="download()" />
+</body>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+<script type="text/javaScript">
+    function download(){
+        var form=$("<form>");//定义一个form表单
+        form.attr("style","display:none");
+        form.attr("target","");
+        form.attr("method","post");
+        form.attr("action","http://localhost:8081/util/download");//请求url
+        var input1=$("<input>");
+        input1.attr("type","hidden");
+        input1.attr("name","rows");//设置属性的名字
+        input1.attr("value","text");//设置属性的值
+        $("body").append(form);//将表单放置在web中
+        form.append(input1);
+        form.submit();//表单提交
+    }
+</script>
+</html>
