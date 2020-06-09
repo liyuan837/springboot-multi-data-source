@@ -23,21 +23,31 @@ public class DataSourceConfig {
         return new HikariDataSource();
     }
 
-    @Bean(name = "slaveDataSource")
-    @ConfigurationProperties(prefix = "mysql.datasource.slave")
-    public DataSource slaveDataSource(){
+    @Bean(name = "slaveDataSource1")
+    @ConfigurationProperties(prefix = "mysql.datasource.slave1")
+    public DataSource slaveDataSource1(){
         return new HikariDataSource();
     }
 
-    @Bean(name = "myRoutingDataSource")
-    public DataSource myRoutingDataSource(@Qualifier("masterDataSource") DataSource masterDataSource,
-                                          @Qualifier("slaveDataSource") DataSource slaveDataSource){
+    @Bean(name = "slaveDataSource2")
+    @ConfigurationProperties(prefix = "mysql.datasource.slave2")
+    public DataSource slaveDataSource2(){
+        return new HikariDataSource();
+    }
+
+    @Bean(name = "dynamicDataSource")
+    public DataSource dynamicDataSource(@Qualifier("masterDataSource") DataSource masterDataSource,
+                                          @Qualifier("slaveDataSource1") DataSource slaveDataSource1,
+                                          @Qualifier("slaveDataSource2") DataSource slaveDataSource2){
+        DynamicDataSource dynamicDataSource = new DynamicDataSource ();
         Map<Object,Object> targetDataSource = new HashMap<>();
+
         targetDataSource.put(DBTypeEnum.MASTER,masterDataSource);
-        targetDataSource.put(DBTypeEnum.SLAVE,slaveDataSource);
-        MyRoutingDataSource myRoutingDataSource = new MyRoutingDataSource();
-        myRoutingDataSource.setDefaultTargetDataSource(masterDataSource);
-        myRoutingDataSource.setTargetDataSources(targetDataSource);
-        return myRoutingDataSource;
+        targetDataSource.put(DBTypeEnum.SLAVE1,slaveDataSource1);
+        targetDataSource.put(DBTypeEnum.SLAVE2,slaveDataSource2);
+
+        dynamicDataSource.setDefaultTargetDataSource(masterDataSource);
+        dynamicDataSource.setTargetDataSources(targetDataSource);
+        return dynamicDataSource;
     }
 }

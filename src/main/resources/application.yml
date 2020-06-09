@@ -10,8 +10,14 @@ mysql:
       username: root
       password: 123456
       driver-class-name: com.mysql.jdbc.Driver
-    slave:
-      pool-name: slave-pool
+    slave1:
+      pool-name: slave1-pool
+      jdbc-url: jdbc:mysql://localhost:3306/db_test?useUnicode=true&characterEncoding=utf8&useSSL=false
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.jdbc.Driver
+    slave2:
+      pool-name: slave2-pool
       jdbc-url: jdbc:mysql://localhost:3306/db_test?useUnicode=true&characterEncoding=utf8&useSSL=false
       username: root
       password: 123456

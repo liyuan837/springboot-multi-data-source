@@ -3,7 +3,7 @@ package com.liyuan.demo.config;
 import com.sun.istack.internal.Nullable;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
-public class MyRoutingDataSource extends AbstractRoutingDataSource {
+public class DynamicDataSource extends AbstractRoutingDataSource {
 
     @Nullable
     @Override
